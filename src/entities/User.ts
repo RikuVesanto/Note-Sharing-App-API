@@ -2,13 +2,17 @@ import {
   BaseEntity,
   Entity,
   Column,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   CreateDateColumn,
+  OneToMany,
+  ManyToMany,
 } from 'typeorm'
+import { NoteEdit } from './NoteEdit'
+import { Group } from './Group'
 
 @Entity('User')
 export class User extends BaseEntity {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id: number
 
   @Column()
@@ -29,6 +33,15 @@ export class User extends BaseEntity {
     unique: true,
   })
   email: string
+
+  @OneToMany(() => NoteEdit, (noteEdit) => noteEdit.user)
+  noteEdits: NoteEdit[]
+
+  @OneToMany(() => Group, (group) => group.user)
+  creatorsGroups: Group[]
+
+  @ManyToMany(() => Group)
+  groups: Group[]
 
   @CreateDateColumn()
   created_at: Date

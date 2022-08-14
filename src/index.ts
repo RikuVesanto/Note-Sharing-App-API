@@ -1,5 +1,10 @@
 import { DataSource } from 'typeorm'
 import { User } from './entities/User'
+import { Group } from './entities/Group'
+import { Topic } from './entities/Topic'
+import { Note } from './entities/Note'
+import { NoteEdit } from './entities/NoteEdit'
+
 import * as dotenv from 'dotenv'
 
 dotenv.config({ path: 'src/development.env' })
@@ -14,7 +19,7 @@ const main = async () => {
     username: process.env.USER,
     password: process.env.PASSWORD,
     database: process.env.DB,
-    entities: [User],
+    entities: [User, Group, Topic, Note, NoteEdit],
     synchronize: true,
     logging: false,
   })
