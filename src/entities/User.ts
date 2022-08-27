@@ -18,8 +18,13 @@ export class User extends BaseEntity {
   @Column()
   username: string
 
-  @Column()
+  @Column({ select: false })
   password: string
+
+  @Column({
+    nullable: true,
+  })
+  name: string
 
   @Column({
     nullable: true,
@@ -27,7 +32,7 @@ export class User extends BaseEntity {
   school: string
 
   @Column()
-  age: number
+  birthday: Date
 
   @Column({
     unique: true,
