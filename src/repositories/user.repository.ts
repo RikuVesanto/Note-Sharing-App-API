@@ -1,8 +1,13 @@
 import argon2 from 'argon2'
+<<<<<<< HEAD
 import { appDataSource } from '../utils/app-data-source'
 import { User } from '../entities/User'
 import { UserRegisterRequestDTO } from '../dto/user-register-request.dto'
 import { UserLoginRequestDTO } from 'src/dto/user-login-request.dto'
+=======
+import { User } from '../entities/User'
+import { UserRegisterRequestDTO } from '../dto/user-register-request.dto'
+>>>>>>> 8aa3e5d26f028681229298b46f6232e26a19ca99
 import validate from '../utils/validate-dto'
 
 export default {
