@@ -18,8 +18,11 @@ export default {
   login: async (req: Request, res: Response) => {
     const LoginRequestDTO: UserLoginRequestDTO = new UserLoginRequestDTO()
     try {
-      await userRepo.login(Object.assign(LoginRequestDTO, req.body))
-      respond.ok(res)
+      const token = await userRepo.login(Object.assign(LoginRequestDTO, req.body))
+      if (token != "") {
+        res.send(token)
+      }
+      //respond.ok(res)
     } catch (error: any) {
       console.log(error)
     }

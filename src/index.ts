@@ -5,7 +5,6 @@ import { appDataSource } from './utils/app-data-source'
 import routes from './routes'
 
 dotenv.config({ path: 'src/development.env' })
-
 const main = async () => {
   appDataSource
     .initialize()
