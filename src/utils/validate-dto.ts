@@ -1,6 +1,7 @@
 import { validate } from 'class-validator'
 import { UserRegisterRequestDTO } from '../dto/user-register-request.dto'
 import { UserLoginRequestDTO } from 'src/dto/user-login-request.dto'
+import { GroupRegisterRequestDTO } from '../dto/group-register-request.dto'
 import { BaseDTO } from '../dto/base-dto'
 import { HttpError } from './errors'
 
@@ -20,6 +21,9 @@ export default {
     await validateRequest(request)
   },
   loginRequest: async (request: UserLoginRequestDTO): Promise<void> => {
+    await validateRequest(request)
+  },
+  groupRegisterRequest: async (request: GroupRegisterRequestDTO): Promise<void> => {
     await validateRequest(request)
   },
 }

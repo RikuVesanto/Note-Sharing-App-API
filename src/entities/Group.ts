@@ -24,10 +24,17 @@ export class Group extends BaseEntity {
   @Column({
     nullable: true,
   })
-  password: string
+  class: string
 
-  @Column()
-  private: boolean
+  @Column({
+    nullable: true,
+  })
+  description: string
+
+  @Column({
+    nullable: true,
+  })
+  password: string
 
   @ManyToOne(() => User, (user) => user.groups)
   @JoinColumn({
