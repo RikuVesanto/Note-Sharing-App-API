@@ -14,4 +14,12 @@ export default {
       console.log(error)
     }
   },
+  getGroupList: async (req: Request, res: Response) => {
+    try {
+      const groupList = await groupRepo.getGroupList(req.params.id)
+      res.send(groupList)
+    } catch (error: any) {
+      console.log(error)
+    }
+  },
 }

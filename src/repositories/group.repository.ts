@@ -22,4 +22,13 @@ export default {
     group.description = request.description ?? ''
     await group.save()
   },
+  getGroupList: async (id: string): Promise<Object> => {
+   var response = await appDataSource
+    .getRepository(Group)
+    .createQueryBuilder("group")
+    .where(`group.creatorId = ${id}`)
+    .getMany()
+    return  response
+  },
+
 }
