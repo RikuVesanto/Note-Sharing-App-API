@@ -18,7 +18,12 @@ export class Topic extends BaseEntity {
   id: number
 
   @Column()
-  title: string
+  topic: string
+
+  @Column({
+    nullable: true,
+  })
+  description: string
 
   @OneToMany(() => Note, (note) => note.topic)
   notes: Note[]
