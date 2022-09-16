@@ -3,6 +3,7 @@ import { UserRegisterRequestDTO } from '../dto/user-register-request.dto'
 import { UserLoginRequestDTO } from 'src/dto/user-login-request.dto'
 import { GroupRegisterRequestDTO } from '../dto/group-register-request.dto'
 import { TopicRegisterRequestDTO } from '../dto/topic-register-request.dto'
+import { NoteRegisterRequestDTO } from '../dto/note-register-request.dto'
 import { BaseDTO } from '../dto/base-dto'
 import { HttpError } from './errors'
 
@@ -28,6 +29,9 @@ export default {
     await validateRequest(request)
   },
   TopicRegisterRequestDTO: async (request: TopicRegisterRequestDTO): Promise<void> => {
+    await validateRequest(request)
+  },
+  NoteRegisterRequestDTO: async (request: NoteRegisterRequestDTO): Promise<void> => {
     await validateRequest(request)
   },
 }
