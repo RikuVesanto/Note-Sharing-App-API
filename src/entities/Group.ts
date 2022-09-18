@@ -57,6 +57,7 @@ export class Group extends BaseEntity {
       referencedColumnName: 'id',
     },
   })
+  users: User[]
   @CreateDateColumn()
   created_at: Date
 }

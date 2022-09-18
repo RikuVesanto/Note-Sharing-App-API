@@ -4,6 +4,7 @@ import { GroupRegisterRequestDTO } from '../dto/group-register-request.dto'
 import validate from '../utils/validate-dto'
 import { User } from '../entities/User'
 import { appDataSource } from '../utils/app-data-source'
+import { AddGroupsUserRequestDTO } from '../dto/add-groups-user-request.dto'
 
 
 export default {
@@ -30,5 +31,27 @@ export default {
     .getMany()
     return  response
   },
-
+  getGroupSearchResult: async (search: string): Promise<Object> => {
+    var response = await appDataSource
+     .getRepository(Group)
+     .createQueryBuilder("group")
+     .where(`group.name LIKE '%${search}%'`)
+     .getMany()
+     return  response
+   },
+   addUserConnection: async (request: AddGroupsUserRequestDTO): Promise<void> => {
+    await validate.AddGroupsUserRequestDTO(request)
+    const group: Group = await appDataSource.manager.findOneOrFail(Group, {
+      where: {
+        id: parseInt(request.groupId),
+      },relations: ['users','user']
+    })
+    const user: User = await appDataSource.manager.findOneOrFail(User, {
+      where: {
+        id: parseInt(request.userId),
+      },
+    })
+    group.users = [...group.users, user]
+    await group.save()
+  },
 }
