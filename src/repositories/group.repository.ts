@@ -12,12 +12,15 @@ export default {
     await validate.groupRegisterRequest(request)
     const group: Group = new Group()
     group.name = request.name
-    group.password = await argon2.hash(request.password)
+    if (request.password) {
+      group.password = await argon2.hash(request.password)
+    }
     const user: User = await appDataSource.manager.findOneOrFail(User, {
       where: {
         id: request.creatorId,
       },
     })
+
     group.user = user
     group.class = request.class ?? ''
     group.description = request.description ?? ''

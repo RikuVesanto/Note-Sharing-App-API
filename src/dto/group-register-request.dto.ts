@@ -7,9 +7,8 @@ export class GroupRegisterRequestDTO extends BaseDTO {
   @Length(4, 48)
   name!: string
 
-  @IsDefined()
-  @IsNotEmpty()
   @Length(8, 256)
+  @Allow()
   password!: string
 
   @Length(0, 48)
