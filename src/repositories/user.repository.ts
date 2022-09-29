@@ -23,30 +23,33 @@ export default {
     await user.save()
   },
   login: async (request: UserLoginRequestDTO): Promise<String> => {
-    let token = ""
+    let result = ""
     await validate.loginRequest(request)
-    const user: User = await appDataSource.manager.findOneOrFail(User, {
-      where: {
-        username: request.username,
-      },
-    })
+    let user: User
+    try {
+      user = await appDataSource.manager.findOneOrFail(User, {
+        where: {
+          username: request.username,
+        },
+      })
+    } catch (err) {
+      return "Username not found"
+    }
     try {
       if ( await argon2.verify(user.password, request.password)) {
-        console.log("password matches")
-        token = jwt.sign(
+        result = jwt.sign(
           { id: user.id, username: user.username },
           String(process.env.JWT_SECRET),
           { algorithm: 'HS256',
           expiresIn: "1h" }
         )
-        console.log(token)
       } else {
         // password did not match
-        console.log("password doesn't match")
+        result = "Incorrect password"
       }
     } catch (err) {
       // internal failure
     }
-    return token
+    return result
   },
 }

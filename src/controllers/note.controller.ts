@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import respond from '../utils/http-responses'
 import { NoteRegisterRequestDTO } from '../dto/note-register-request.dto'
 import noteRepo from '../repositories/note.repository'
 
@@ -9,7 +8,7 @@ export default {
       new NoteRegisterRequestDTO()
     try {
       await noteRepo.register(Object.assign(registerRequestDTO, req.body))
-      respond.created(res)
+      res.sendStatus(201)
     } catch (error: any) {
       console.log(error)
     }
@@ -17,7 +16,7 @@ export default {
   getNoteList: async (req: Request, res: Response) => {
     try {
       const noteList = await noteRepo.getNoteList(req.params.id)
-      res.send(noteList)
+      res.status(200).send(noteList)
     } catch (error: any) {
       console.log(error)
     }

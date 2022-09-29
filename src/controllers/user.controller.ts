@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import respond from '../utils/http-responses'
 import { UserRegisterRequestDTO } from '../dto/user-register-request.dto'
 import { UserLoginRequestDTO } from '../dto/user-login-request.dto'
 import userRepo from '../repositories/user.repository'
@@ -10,7 +9,7 @@ export default {
       new UserRegisterRequestDTO()
     try {
       await userRepo.register(Object.assign(registerRequestDTO, req.body))
-      respond.created(res)
+      res.sendStatus(201)
     } catch (error: any) {
       console.log(error)
     }
@@ -18,11 +17,14 @@ export default {
   login: async (req: Request, res: Response) => {
     const LoginRequestDTO: UserLoginRequestDTO = new UserLoginRequestDTO()
     try {
-      const token = await userRepo.login(Object.assign(LoginRequestDTO, req.params))
-      if (token != "") {
-        res.send(token)
+      const response = await userRepo.login(Object.assign(LoginRequestDTO, req.params))
+      if (response == "Incorrect password" || response == "Username not found") {
+        res.status(401).send({
+          message: response
+        })
+      } else if (response != "") {
+        res.status(200).send(response)
       }
-      //respond.ok(res)
     } catch (error: any) {
       console.log(error)
     }

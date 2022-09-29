@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import respond from '../utils/http-responses'
 import { TopicRegisterRequestDTO } from '../dto/topic-register-request.dto'
 import topicRepo from '../repositories/topic.repository'
 
@@ -9,7 +8,7 @@ export default {
       new TopicRegisterRequestDTO()
     try {
       await topicRepo.register(Object.assign(registerRequestDTO, req.body))
-      respond.created(res)
+      res.sendStatus(201)
     } catch (error: any) {
       console.log(error)
     }
@@ -17,7 +16,7 @@ export default {
   getTopicList: async (req: Request, res: Response) => {
     try {
       const topicList = await topicRepo.getTopicList(req.params.id)
-      res.send(topicList)
+      res.status(200).send(topicList)
     } catch (error: any) {
       console.log(error)
     }
