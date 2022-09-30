@@ -7,7 +7,7 @@ import validate from '../utils/validate-dto'
 
 export default {
   register: async (request: TopicRegisterRequestDTO): Promise<void> => {
-    await validate.TopicRegisterRequestDTO(request)
+    await validate.validateRequest(request)
     const topic: Topic = new Topic()
     const group: Group = await appDataSource.manager.findOneOrFail(Group, {
         where: {

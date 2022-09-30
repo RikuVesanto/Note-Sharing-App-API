@@ -7,7 +7,7 @@ import validate from '../utils/validate-dto'
 
 export default {
   register: async (request: NoteRegisterRequestDTO): Promise<void> => {
-    await validate.NoteRegisterRequestDTO(request)
+    await validate.validateRequest(request)
     const note: Note = new Note()
     const topic: Topic = await appDataSource.manager.findOneOrFail(Topic, {
         where: {

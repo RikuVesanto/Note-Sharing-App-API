@@ -1,12 +1,5 @@
 import { validate } from 'class-validator'
-import { UserRegisterRequestDTO } from '../dto/user-register-request.dto'
-import { UserLoginRequestDTO } from 'src/dto/user-login-request.dto'
-import { GroupRegisterRequestDTO } from '../dto/group-register-request.dto'
-import { TopicRegisterRequestDTO } from '../dto/topic-register-request.dto'
-import { NoteRegisterRequestDTO } from '../dto/note-register-request.dto'
-import { AddGroupsUserRequestDTO } from '../dto/add-groups-user-request.dto'
 import { BaseDTO } from '../dto/base-dto'
-import { HttpError } from './errors'
 
 const validateRequest = async (request: BaseDTO) => {
   const errors = await validate(request, {
@@ -15,27 +8,23 @@ const validateRequest = async (request: BaseDTO) => {
     forbidNonWhitelisted: true,
   })
   if (errors.length > 0) {
-    throw HttpError(400, `Invalid properties: ${errors[0].property}`)
+    let invalidValues = ""
+    let i = 0
+    while (i < errors.length) {
+      if (i != 0) {
+        invalidValues += ", "
+      }
+      invalidValues +=  errors[i].property + " \'" + errors[i].value +"\'"
+      i++
+    }
+    throw validationError(422, `Invalid values: ${invalidValues}`)
   }
 }
 
+const validationError = (statusCode: number, message: string) => {
+  return new Error(String(statusCode) + " " + message);
+}
+
 export default {
-  registerRequest: async (request: UserRegisterRequestDTO): Promise<void> => {
-    await validateRequest(request)
-  },
-  loginRequest: async (request: UserLoginRequestDTO): Promise<void> => {
-    await validateRequest(request)
-  },
-  groupRegisterRequest: async (request: GroupRegisterRequestDTO): Promise<void> => {
-    await validateRequest(request)
-  },
-  TopicRegisterRequestDTO: async (request: TopicRegisterRequestDTO): Promise<void> => {
-    await validateRequest(request)
-  },
-  NoteRegisterRequestDTO: async (request: NoteRegisterRequestDTO): Promise<void> => {
-    await validateRequest(request)
-  },
-  AddGroupsUserRequestDTO: async (request: AddGroupsUserRequestDTO): Promise<void> => {
-    await validateRequest(request)
-  },
+  validateRequest
 }

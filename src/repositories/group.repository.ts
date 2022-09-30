@@ -9,7 +9,7 @@ import { AddGroupsUserRequestDTO } from '../dto/add-groups-user-request.dto'
 
 export default {
   register: async (request: GroupRegisterRequestDTO): Promise<void> => {
-    await validate.groupRegisterRequest(request)
+    await validate.validateRequest(request)
     const group: Group = new Group()
     group.name = request.name
     if (request.password) {
@@ -43,7 +43,7 @@ export default {
      return  response
    },
    addUserConnection: async (request: AddGroupsUserRequestDTO): Promise<void> => {
-    await validate.AddGroupsUserRequestDTO(request)
+    await validate.validateRequest(request)
     const group: Group = await appDataSource.manager.findOneOrFail(Group, {
       where: {
         id: parseInt(request.groupId),

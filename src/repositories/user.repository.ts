@@ -11,7 +11,7 @@ dotenv.config({ path: 'src/development.env' })
 
 export default {
   register: async (request: UserRegisterRequestDTO): Promise<void> => {
-    await validate.registerRequest(request)
+    await validate.validateRequest(request)
     const user: User = new User()
     user.username = request.username
     user.password = await argon2.hash(request.password)
@@ -24,7 +24,7 @@ export default {
   },
   login: async (request: UserLoginRequestDTO): Promise<String> => {
     let result = ""
-    await validate.loginRequest(request)
+    await validate.validateRequest(request)
     let user: User
     try {
       user = await appDataSource.manager.findOneOrFail(User, {
