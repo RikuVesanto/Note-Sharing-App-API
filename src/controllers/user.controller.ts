@@ -8,8 +8,14 @@ export default {
     const registerRequestDTO: UserRegisterRequestDTO =
       new UserRegisterRequestDTO()
     try {
-      await userRepo.register(Object.assign(registerRequestDTO, req.body))
-      res.sendStatus(201)
+      let registerStatus = await userRepo.register(Object.assign(registerRequestDTO, req.body))
+      if (registerStatus == "duplicateEmail") {
+        res.status(409).send("This email is already in use")
+      } else if (registerStatus == "duplicateUsername") {
+        res.status(409).send("This username is already in use")
+      } else if (registerStatus == "success") {
+        res.status(201).send("Register successful")
+      }
     } catch (error: any) {
       console.log(error)
     }

@@ -8,8 +8,16 @@ import { AddGroupsUserRequestDTO } from '../dto/add-groups-user-request.dto'
 
 
 export default {
-  register: async (request: GroupRegisterRequestDTO): Promise<void> => {
+  register: async (request: GroupRegisterRequestDTO): Promise<String> => {
     await validate.validateRequest(request)
+    const nameDuplicate = await appDataSource.manager.findOne(Group, {
+      where: {
+        name: request.name,
+      },
+    })
+    if (nameDuplicate != null) {
+      return "duplicateName"
+    }
     const group: Group = new Group()
     group.name = request.name
     if (request.password) {
@@ -20,11 +28,11 @@ export default {
         id: request.creatorId,
       },
     })
-
     group.user = user
     group.class = request.class ?? ''
     group.description = request.description ?? ''
     await group.save()
+    return "success"
   },
   getGroupList: async (id: string): Promise<Object> => {
    var response = await appDataSource

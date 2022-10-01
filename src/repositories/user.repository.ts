@@ -10,8 +10,24 @@ import validate from '../utils/validate-dto'
 dotenv.config({ path: 'src/development.env' })
 
 export default {
-  register: async (request: UserRegisterRequestDTO): Promise<void> => {
+  register: async (request: UserRegisterRequestDTO): Promise<String> => {
     await validate.validateRequest(request)
+    const emailDuplicate = await appDataSource.manager.findOne(User, {
+      where: {
+        email: request.email,
+      },
+    })
+    if (emailDuplicate != null) {
+      return "duplicateEmail"
+    }
+    const usernameDuplicate = await appDataSource.manager.findOne(User, {
+      where: {
+        username: request.username,
+      },
+    })
+    if (usernameDuplicate != null) {
+      return "duplicateUsername"
+    }
     const user: User = new User()
     user.username = request.username
     user.password = await argon2.hash(request.password)
@@ -21,6 +37,7 @@ export default {
     user.school = request.school ?? ''
     user.birthday = request.birthday ?? '0001-01-01'
     await user.save()
+    return "success"
   },
   login: async (request: UserLoginRequestDTO): Promise<String> => {
     let result = ""
