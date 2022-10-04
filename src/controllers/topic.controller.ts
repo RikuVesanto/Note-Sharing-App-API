@@ -7,8 +7,12 @@ export default {
     const registerRequestDTO: TopicRegisterRequestDTO =
       new TopicRegisterRequestDTO()
     try {
-      await topicRepo.register(Object.assign(registerRequestDTO, req.body))
-      res.status(201).send("Topic created")
+      const status = await topicRepo.register(Object.assign(registerRequestDTO, req.body))
+      if (status == "groupMissing") {
+        res.status(422).send("Failed to create topic, missing group")
+      } else if (status == "success") {
+        res.status(201).send("Topic created")
+      }
     } catch (error: any) {
       console.log(error)
     }
@@ -19,6 +23,7 @@ export default {
       res.status(200).send(topicList)
     } catch (error: any) {
       console.log(error)
+      console.log("bah")
     }
   },
 }

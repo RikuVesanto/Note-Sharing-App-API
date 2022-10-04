@@ -8,10 +8,12 @@ export default {
     const registerRequestDTO: GroupRegisterRequestDTO =
       new GroupRegisterRequestDTO()
     try {
-      let registerStatus = await groupRepo.register(Object.assign(registerRequestDTO, req.body))
-      if (registerStatus == "duplicateName") {
+      let status = await groupRepo.register(Object.assign(registerRequestDTO, req.body))
+      if (status == "duplicateName") {
         res.status(409).send("This group name is already in use")
-      } else if (registerStatus == "success") {
+      } else if (status == "userMissing") {
+        res.status(422).send("Failed to create group, missing creator")
+      } else if (status == "success") {
         res.status(201).send("Group was created")
       }
     } catch (error: any) {

@@ -9,6 +9,9 @@ import { AddGroupsUserRequestDTO } from '../dto/add-groups-user-request.dto'
 export default {
   register: async (request: GroupRegisterRequestDTO): Promise<String> => {
     await validate.validateRequest(request)
+    if (!request.creatorId) {
+      return "userMissing"
+    } 
     const nameDuplicate = await appDataSource.manager.findOne(Group, {
       where: {
         name: request.name,

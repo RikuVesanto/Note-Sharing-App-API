@@ -7,8 +7,12 @@ export default {
     const registerRequestDTO: NoteRegisterRequestDTO =
       new NoteRegisterRequestDTO()
     try {
-      await noteRepo.register(Object.assign(registerRequestDTO, req.body))
-      res.status(201).send("Note created")
+      const status = await noteRepo.register(Object.assign(registerRequestDTO, req.body))
+      if (status == "topicMissing") {
+        res.status(422).send("Failed to create note, missing topic")
+      } else if (status == "created") {
+        res.status(201).send("Note created")
+      }
     } catch (error: any) {
       console.log(error)
     }

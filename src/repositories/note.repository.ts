@@ -6,8 +6,11 @@ import validate from '../utils/validate-dto'
 
 
 export default {
-  register: async (request: NoteRegisterRequestDTO): Promise<void> => {
+  register: async (request: NoteRegisterRequestDTO): Promise<String> => {
     await validate.validateRequest(request)
+    if (!request.topicId) {
+      return "topicMissing"
+    }
     const note: Note = new Note()
     const topic: Topic = await appDataSource.manager.findOneOrFail(Topic, {
         where: {
@@ -18,6 +21,7 @@ export default {
     note.content = request.content ?? ''
     note.topic = topic
     await note.save()
+    return "created"
   },
   getNoteList: async (id: string): Promise<Object> => {
     var response = await appDataSource
