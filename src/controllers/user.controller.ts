@@ -14,7 +14,7 @@ export default {
       } else if (registerStatus == "duplicateUsername") {
         res.status(409).send("This username is already in use")
       } else if (registerStatus == "success") {
-        res.status(201).send("Register successful")
+        res.status(201).send("Registration successful")
       }
     } catch (error: any) {
       console.log(error)

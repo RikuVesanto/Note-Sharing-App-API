@@ -8,7 +8,7 @@ export default {
       new TopicRegisterRequestDTO()
     try {
       await topicRepo.register(Object.assign(registerRequestDTO, req.body))
-      res.sendStatus(201)
+      res.status(201).send("Topic created")
     } catch (error: any) {
       console.log(error)
     }

@@ -8,7 +8,7 @@ export default {
       new NoteRegisterRequestDTO()
     try {
       await noteRepo.register(Object.assign(registerRequestDTO, req.body))
-      res.sendStatus(201)
+      res.status(201).send("Note created")
     } catch (error: any) {
       console.log(error)
     }

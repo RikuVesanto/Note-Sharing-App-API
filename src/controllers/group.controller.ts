@@ -12,7 +12,7 @@ export default {
       if (registerStatus == "duplicateName") {
         res.status(409).send("This group name is already in use")
       } else if (registerStatus == "success") {
-        res.status(201).send("Group was created successfully")
+        res.status(201).send("Group was created")
       }
     } catch (error: any) {
       console.log(error)

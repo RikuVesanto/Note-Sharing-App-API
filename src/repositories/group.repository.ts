@@ -6,7 +6,6 @@ import { User } from '../entities/User'
 import { appDataSource } from '../utils/app-data-source'
 import { AddGroupsUserRequestDTO } from '../dto/add-groups-user-request.dto'
 
-
 export default {
   register: async (request: GroupRegisterRequestDTO): Promise<String> => {
     await validate.validateRequest(request)
