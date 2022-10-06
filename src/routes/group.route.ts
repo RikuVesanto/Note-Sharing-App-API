@@ -8,5 +8,4 @@ router.post('/userconnection', groupController.addUserConnection)
 router.get('/grouplist/:id', groupController.getGroupList)
 router.get('/searchlist/:search', groupController.getGroupSearchResult)
 
-
 export default router
