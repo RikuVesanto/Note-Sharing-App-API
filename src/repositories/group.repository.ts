@@ -37,13 +37,14 @@ export default {
 		await group.save()
 		return 'success'
 	},
-	getGroupList: async (id: string): Promise<Object> => {
-		var response = await appDataSource
-			.getRepository(Group)
+	getGroupList: async (id: number): Promise<Group[]> => {
+		const groupRepository = appDataSource.getRepository(Group)
+		const groupList = await groupRepository
 			.createQueryBuilder('group')
-			.where(`group.creatorId = ${id}`)
+			.leftJoin('group.users', 'user')
+			.where('user.id = :id', { id: id })
 			.getMany()
-		return response
+		return groupList
 	},
 	getGroupSearchResult: async (search: string): Promise<Object> => {
 		var response = await appDataSource

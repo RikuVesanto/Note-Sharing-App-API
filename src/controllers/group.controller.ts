@@ -24,7 +24,9 @@ export default {
 	},
 	getGroupList: async (req: Request, res: Response) => {
 		try {
-			const groupList = await groupRepo.getGroupList(req.params.id)
+			const groupList = await groupRepo.getGroupList(
+				parseInt(req.params.id)
+			)
 			res.status(200).send(groupList)
 		} catch (error: any) {
 			console.log(error)
@@ -47,7 +49,7 @@ export default {
 			await groupRepo.addUserConnection(
 				Object.assign(addGroupsUserRequestDTO, req.body)
 			)
-			res.sendStatus(201)
+			res.status(201).send('Joined group')
 		} catch (error: any) {
 			console.log(error)
 		}

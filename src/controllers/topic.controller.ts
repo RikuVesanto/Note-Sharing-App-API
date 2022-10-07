@@ -25,7 +25,6 @@ export default {
 			res.status(200).send(topicList)
 		} catch (error: any) {
 			console.log(error)
-			console.log('bah')
 		}
 	},
 }
