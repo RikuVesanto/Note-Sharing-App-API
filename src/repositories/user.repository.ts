@@ -7,7 +7,7 @@ import { UserRegisterRequestDTO } from '../dto/user-register-request.dto'
 import { UserLoginRequestDTO } from 'src/dto/user-login-request.dto'
 import validate from '../utils/validate-dto'
 
-dotenv.config({ path: 'src/development.env' })
+dotenv.config({ path: '../src/development.env' })
 
 export default {
 	register: async (request: UserRegisterRequestDTO): Promise<String> => {
@@ -31,7 +31,6 @@ export default {
 		const user: User = new User()
 		user.username = request.username
 		user.password = await argon2.hash(request.password)
-		console.log(user.password)
 		user.email = request.email
 		user.name = request.name ?? ''
 		user.school = request.school ?? ''

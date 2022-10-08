@@ -10,6 +10,7 @@ export class NoteRegisterRequestDTO extends BaseDTO {
 	@IsDefined()
 	content!: string
 
-	@Allow()
+	@IsNotEmpty()
+	@IsDefined()
 	topicId!: number
 }

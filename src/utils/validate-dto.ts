@@ -1,5 +1,6 @@
 import { validate } from 'class-validator'
 import { BaseDTO } from '../dto/base-dto'
+import { error } from '../utils/error'
 
 const validateRequest = async (request: BaseDTO) => {
 	const errors = await validate(request, {
@@ -17,12 +18,8 @@ const validateRequest = async (request: BaseDTO) => {
 			invalidValues += errors[i].property + " '" + errors[i].value + "'"
 			i++
 		}
-		throw validationError(422, `Invalid values: ${invalidValues}`)
+		throw error(422, `Invalid values: ${invalidValues}`)
 	}
-}
-
-const validationError = (statusCode: number, message: string) => {
-	return new Error(String(statusCode) + ' ' + message)
 }
 
 export default {
