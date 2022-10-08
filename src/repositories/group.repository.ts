@@ -38,8 +38,8 @@ export default {
 		return 'success'
 	},
 	getGroupList: async (id: number): Promise<Group[]> => {
-		const groupRepository = appDataSource.getRepository(Group)
-		const groupList = await groupRepository
+		const groupList = await appDataSource
+			.getRepository(Group)
 			.createQueryBuilder('group')
 			.leftJoin('group.users', 'user')
 			.where('user.id = :id', { id: id })
@@ -56,14 +56,23 @@ export default {
 	},
 	addUserConnection: async (
 		request: AddGroupsUserRequestDTO
-	): Promise<void> => {
+	): Promise<String> => {
 		await validate.validateRequest(request)
+		const usersGroups = await appDataSource
+			.getRepository(Group)
+			.createQueryBuilder('group')
+			.leftJoin('group.users', 'user')
+			.where('user.id = :id', { id: request.userId })
+			.getMany()
 		const group: Group = await appDataSource.manager.findOneOrFail(Group, {
 			where: {
 				id: parseInt(request.groupId),
 			},
 			relations: ['users', 'user'],
 		})
+		if (usersGroups.filter((g) => g.name == group.name).length > 0) {
+			return 'alreadyInGroup'
+		}
 		const user: User = await appDataSource.manager.findOneOrFail(User, {
 			where: {
 				id: parseInt(request.userId),
@@ -71,5 +80,6 @@ export default {
 		})
 		group.users = [...group.users, user]
 		await group.save()
+		return 'success'
 	},
 }

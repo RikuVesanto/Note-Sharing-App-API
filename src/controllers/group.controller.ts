@@ -46,10 +46,14 @@ export default {
 		const addGroupsUserRequestDTO: AddGroupsUserRequestDTO =
 			new AddGroupsUserRequestDTO()
 		try {
-			await groupRepo.addUserConnection(
+			const result = await groupRepo.addUserConnection(
 				Object.assign(addGroupsUserRequestDTO, req.body)
 			)
-			res.status(201).send('Joined group')
+			if (result == 'alreadyInGroup') {
+				res.status(409).send('Could not join already in a group')
+			} else if (result == 'success') {
+				res.status(201).send('Joined group')
+			}
 		} catch (error: any) {
 			console.log(error)
 		}
