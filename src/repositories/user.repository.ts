@@ -5,6 +5,7 @@ import { appDataSource } from '../utils/app-data-source'
 import { User } from '../entities/User'
 import { UserRegisterRequestDTO } from '../dto/user-register-request.dto'
 import { UserLoginRequestDTO } from 'src/dto/user-login-request.dto'
+import { EditUserInfoRequestDTO } from '../dto/user-edit-info-request.dto'
 import validate from '../utils/validate-dto'
 
 dotenv.config({ path: '../src/development.env' })
@@ -56,7 +57,7 @@ export default {
 				result = jwt.sign(
 					{ id: user.id, username: user.username },
 					String(process.env.JWT_SECRET),
-					{ algorithm: 'HS256', expiresIn: '1h' }
+					{ algorithm: 'HS256', expiresIn: '5y' }
 				)
 			} else {
 				// password did not match
@@ -66,5 +67,67 @@ export default {
 			// internal failure
 		}
 		return result
+	},
+	getUser: async (id: number): Promise<Object> => {
+		try {
+			var user: User = await appDataSource.manager.findOneOrFail(User, {
+				where: {
+					id: id,
+				},
+			})
+		} catch (err) {
+			return 'invalidId'
+		}
+		return user
+	},
+
+	editUserInfo: async (request: EditUserInfoRequestDTO): Promise<String> => {
+		await validate.validateRequest(request)
+		let user
+		try {
+			user = await appDataSource.manager.findOneOrFail(User, {
+				where: {
+					id: parseInt(request.id),
+				},
+			})
+		} catch (err) {
+			return 'Username not found'
+		}
+
+		if (request.email) {
+			const emailDuplicate = await appDataSource.manager.findOne(User, {
+				where: {
+					email: request.email,
+				},
+			})
+			if (
+				emailDuplicate != null &&
+				emailDuplicate.email != request.email
+			) {
+				return 'duplicateEmail'
+			}
+			user.email = request.email
+		}
+		if (request.username) {
+			const usernameDuplicate = await appDataSource.manager.findOne(
+				User,
+				{
+					where: {
+						username: request.username,
+					},
+				}
+			)
+			if (
+				usernameDuplicate != null &&
+				usernameDuplicate.id != parseInt(request.id)
+			) {
+				return 'duplicateUsername'
+			}
+			user.username = request.username
+		}
+		if (request.username) user.name = request.name
+		if (request.username) user.school = request.school
+		await user.save()
+		return 'success'
 	},
 }
