@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { NoteRegisterRequestDTO } from '../dto/note-register-request.dto'
+import { NoteEditRequestDTO } from '../dto/note-edit-request.dto'
 import noteRepo from '../repositories/note.repository'
 
 export default {
@@ -31,6 +32,21 @@ export default {
 		try {
 			const status = await noteRepo.deleteNote(req.params.id)
 			res.status(200).send(status)
+		} catch (error: any) {
+			console.log(error)
+		}
+	},
+	editNote: async (req: Request, res: Response) => {
+		const editNoteDTO: NoteEditRequestDTO = new NoteEditRequestDTO()
+		try {
+			let status = await noteRepo.editNote(
+				Object.assign(editNoteDTO, req.body)
+			)
+			if (status == 'Note not found') {
+				res.status(409).send(status)
+			} else if (status == 'Note edited') {
+				res.status(201).send(status)
+			}
 		} catch (error: any) {
 			console.log(error)
 		}

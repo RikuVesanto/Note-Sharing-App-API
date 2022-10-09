@@ -2,6 +2,7 @@ import { appDataSource } from '../utils/app-data-source'
 import { Topic } from '../entities/Topic'
 import { Note } from '../entities/Note'
 import { NoteRegisterRequestDTO } from '../dto/note-register-request.dto'
+import { NoteEditRequestDTO } from '../dto/note-edit-request.dto'
 import validate from '../utils/validate-dto'
 
 export default {
@@ -38,5 +39,23 @@ export default {
 			.where('id = :id', { id: id })
 			.execute()
 		return 'Note deleted'
+	},
+	editNote: async (request: NoteEditRequestDTO): Promise<String> => {
+		await validate.validateRequest(request)
+		console.log(request.noteId)
+		let note: Note
+		try {
+			note = await appDataSource.manager.findOneOrFail(Note, {
+				where: {
+					id: request.noteId,
+				},
+			})
+		} catch (err) {
+			return 'Note not found'
+		}
+		note.content = request.content
+		note.title = request.title ?? ''
+		note.save()
+		return 'Note edited'
 	},
 }
