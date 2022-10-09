@@ -6,6 +6,7 @@ import { User } from '../entities/User'
 import { UserRegisterRequestDTO } from '../dto/user-register-request.dto'
 import { UserLoginRequestDTO } from 'src/dto/user-login-request.dto'
 import { EditUserInfoRequestDTO } from '../dto/user-edit-info-request.dto'
+import { EditUserPasswordRequestDTO } from '../dto/user-edit-password-request.dto'
 import validate from '../utils/validate-dto'
 
 dotenv.config({ path: '../src/development.env' })
@@ -83,7 +84,7 @@ export default {
 
 	editUserInfo: async (request: EditUserInfoRequestDTO): Promise<String> => {
 		await validate.validateRequest(request)
-		let user
+		let user: User
 		try {
 			user = await appDataSource.manager.findOneOrFail(User, {
 				where: {
@@ -91,7 +92,7 @@ export default {
 				},
 			})
 		} catch (err) {
-			return 'Username not found'
+			return 'User not found'
 		}
 
 		if (request.email) {
@@ -129,5 +130,27 @@ export default {
 		if (request.username) user.school = request.school
 		await user.save()
 		return 'success'
+	},
+	editUserPassword: async (
+		request: EditUserPasswordRequestDTO
+	): Promise<String> => {
+		await validate.validateRequest(request)
+		let user: User
+		try {
+			user = await appDataSource.manager.findOneOrFail(User, {
+				where: {
+					id: parseInt(request.id),
+				},
+			})
+		} catch (err) {
+			return 'User not found'
+		}
+		if (await argon2.verify(user.password, request.oldPassword)) {
+			user.password = await argon2.hash(request.password)
+			await user.save()
+			return 'Password Changed'
+		} else {
+			return 'Incorrect Password'
+		}
 	},
 }

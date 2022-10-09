@@ -5,6 +5,7 @@ const router: Router = Router()
 
 router.post('/user', userController.register)
 router.put('/user', userController.editUserInfo)
+router.put('/user/password', userController.editUserPassword)
 router.get('/user/:username/:password', userController.login)
 router.get('/user/:id', userController.getUser)
 

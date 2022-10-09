@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { UserRegisterRequestDTO } from '../dto/user-register-request.dto'
 import { UserLoginRequestDTO } from '../dto/user-login-request.dto'
 import { EditUserInfoRequestDTO } from '../dto/user-edit-info-request.dto'
+import { EditUserPasswordRequestDTO } from '../dto/user-edit-password-request.dto'
 import userRepo from '../repositories/user.repository'
 
 export default {
@@ -72,6 +73,24 @@ export default {
 				res.status(409).send('This username is already in use')
 			} else if (status == 'success') {
 				res.status(201).send('User info changed')
+			}
+		} catch (error: any) {
+			console.log(error)
+		}
+	},
+	editUserPassword: async (req: Request, res: Response) => {
+		const editUserPasswordDTO: EditUserPasswordRequestDTO =
+			new EditUserPasswordRequestDTO()
+		try {
+			let status = await userRepo.editUserPassword(
+				Object.assign(editUserPasswordDTO, req.body)
+			)
+			if (status == 'User not found') {
+				res.status(401).send(status)
+			} else if (status == 'Incorrect Password') {
+				res.status(422).send(status)
+			} else if (status == 'Password Changed') {
+				res.status(201).send(status)
 			}
 		} catch (error: any) {
 			console.log(error)
