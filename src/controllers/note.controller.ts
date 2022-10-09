@@ -27,4 +27,12 @@ export default {
 			console.log(error)
 		}
 	},
+	deleteNote: async (req: Request, res: Response) => {
+		try {
+			const status = await noteRepo.deleteNote(req.params.id)
+			res.status(200).send(status)
+		} catch (error: any) {
+			console.log(error)
+		}
+	},
 }

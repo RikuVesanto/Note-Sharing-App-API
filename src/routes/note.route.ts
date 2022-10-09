@@ -6,5 +6,6 @@ const router: Router = Router()
 
 router.post('/note', authenticate, noteController.register)
 router.get('/notelist/:id', authenticate, noteController.getNoteList)
+router.delete('/note/:id', authenticate, noteController.deleteNote)
 
 export default router

@@ -30,4 +30,13 @@ export default {
 			.getMany()
 		return response
 	},
+	deleteNote: async (id: string): Promise<Object> => {
+		await appDataSource
+			.createQueryBuilder()
+			.delete()
+			.from(Note)
+			.where('id = :id', { id: id })
+			.execute()
+		return 'Note deleted'
+	},
 }
