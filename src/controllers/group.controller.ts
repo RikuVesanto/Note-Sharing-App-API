@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { GroupRegisterRequestDTO } from '../dto/group-register-request.dto'
+import { GroupEditInfoRequest } from '../dto/group-edit-info-request.dto'
 import groupRepo from '../repositories/group.repository'
 import { AddGroupsUserRequestDTO } from '../dto/add-groups-user-request.dto'
 
@@ -53,6 +54,39 @@ export default {
 				res.status(409).send('Could not join already in a group')
 			} else if (result == 'success') {
 				res.status(201).send('Joined group')
+			}
+		} catch (error: any) {
+			console.log(error)
+		}
+	},
+	deleteUserConnection: async (req: Request, res: Response) => {
+		try {
+			const result = await groupRepo.deleteUserConnection(
+				parseInt(req.params.groupId),
+				parseInt(req.params.userId)
+			)
+			if (result == 'Group not found') {
+				res.status(409).send(result)
+			} else if (result == 'Not in group') {
+				res.status(409).send(result)
+			} else if (result == 'Left Group') {
+				res.status(200).send(result)
+			}
+		} catch (error: any) {
+			console.log(error)
+		}
+	},
+	editGroup: async (req: Request, res: Response) => {
+		const registerRequestDTO: GroupEditInfoRequest =
+			new GroupEditInfoRequest()
+		try {
+			let status = await groupRepo.editGroup(
+				Object.assign(registerRequestDTO, req.body)
+			)
+			if (status == 'Group not found') {
+				res.status(409).send(status)
+			} else if (status == 'Group information changed') {
+				res.status(200).send(status)
 			}
 		} catch (error: any) {
 			console.log(error)

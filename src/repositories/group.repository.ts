@@ -1,10 +1,11 @@
 import argon2 from 'argon2'
 import { Group } from '../entities/Group'
 import { GroupRegisterRequestDTO } from '../dto/group-register-request.dto'
+import { GroupEditInfoRequest } from '../dto/group-edit-info-request.dto'
+import { AddGroupsUserRequestDTO } from '../dto/add-groups-user-request.dto'
 import validate from '../utils/validate-dto'
 import { User } from '../entities/User'
 import { appDataSource } from '../utils/app-data-source'
-import { AddGroupsUserRequestDTO } from '../dto/add-groups-user-request.dto'
 
 export default {
 	register: async (request: GroupRegisterRequestDTO): Promise<String> => {
@@ -81,5 +82,52 @@ export default {
 		group.users = [...group.users, user]
 		await group.save()
 		return 'success'
+	},
+	deleteUserConnection: async (
+		groupId: number,
+		userId: number
+	): Promise<String> => {
+		const usersGroups = await appDataSource
+			.getRepository(Group)
+			.createQueryBuilder('group')
+			.leftJoin('group.users', 'user')
+			.where('user.id = :id', { id: userId })
+			.getMany()
+		let group: Group
+		try {
+			group = await appDataSource.manager.findOneOrFail(Group, {
+				where: {
+					id: groupId,
+				},
+				relations: ['users', 'user'],
+			})
+		} catch (err) {
+			return 'Group not found'
+		}
+		if (usersGroups.filter((g) => g.name == group.name).length != 1) {
+			return 'Not in Group'
+		}
+		console.log(group.users)
+		group.users = group.users.filter((u) => u.id != userId)
+		console.log(group.users)
+		await group.save()
+		return 'Left Group'
+	},
+	editGroup: async (request: GroupEditInfoRequest): Promise<String> => {
+		await validate.validateRequest(request)
+		let group: Group
+		try {
+			group = await appDataSource.manager.findOneOrFail(Group, {
+				where: {
+					id: request.groupId,
+				},
+			})
+		} catch (err) {
+			return 'Group not found'
+		}
+		group.name = request.name
+		group.description = request.description ?? ''
+		await group.save()
+		return 'Group information changed'
 	},
 }
