@@ -105,4 +105,14 @@ export default {
 			console.log(error)
 		}
 	},
+	getUserList: async (req: Request, res: Response) => {
+		try {
+			const userList = await groupRepo.getUserList(
+				parseInt(req.params.id)
+			)
+			res.status(200).send(userList)
+		} catch (error: any) {
+			console.log(error)
+		}
+	},
 }

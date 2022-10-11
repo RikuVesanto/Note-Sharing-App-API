@@ -12,6 +12,7 @@ router.get(
 	authenticate,
 	groupController.getCreator
 )
+router.get('/userlist/:id', authenticate, groupController.getUserList)
 router.get('/grouplist/:id', authenticate, groupController.getGroupList)
 router.get(
 	'/searchlist/:search',

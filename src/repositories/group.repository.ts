@@ -157,4 +157,12 @@ export default {
 			return false
 		}
 	},
+	getUserList: async (id: number): Promise<User[]> => {
+		const group = await appDataSource.getRepository(Group).findOneOrFail({
+			relations: ['users'],
+			where: { id: id },
+		})
+		console.log(group.users)
+		return group.users
+	},
 }
