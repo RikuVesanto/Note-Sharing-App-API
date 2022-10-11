@@ -85,9 +85,22 @@ export default {
 			)
 			if (status == 'Group not found') {
 				res.status(409).send(status)
+			} else if (status == 'This group name is already in use') {
+				res.status(409).send(status)
 			} else if (status == 'Group information changed') {
 				res.status(200).send(status)
 			}
+		} catch (error: any) {
+			console.log(error)
+		}
+	},
+	getCreator: async (req: Request, res: Response) => {
+		try {
+			const creatorStatus = await groupRepo.isGroupCreator(
+				parseInt(req.params.groupId),
+				parseInt(req.params.userId)
+			)
+			res.status(200).send(creatorStatus)
 		} catch (error: any) {
 			console.log(error)
 		}

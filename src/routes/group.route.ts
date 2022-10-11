@@ -7,6 +7,11 @@ const router: Router = Router()
 router.post('/group', authenticate, groupController.register)
 router.put('/group', authenticate, groupController.editGroup)
 router.post('/userconnection', authenticate, groupController.addUserConnection)
+router.get(
+	'/group/creator/:groupId/:userId',
+	authenticate,
+	groupController.getCreator
+)
 router.get('/grouplist/:id', authenticate, groupController.getGroupList)
 router.get(
 	'/searchlist/:search',

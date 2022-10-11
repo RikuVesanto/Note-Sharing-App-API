@@ -115,6 +115,14 @@ export default {
 	},
 	editGroup: async (request: GroupEditInfoRequest): Promise<String> => {
 		await validate.validateRequest(request)
+		const nameDuplicate = await appDataSource.manager.findOne(Group, {
+			where: {
+				name: request.name,
+			},
+		})
+		if (nameDuplicate != null) {
+			return 'This group name is already in use'
+		}
 		let group: Group
 		try {
 			group = await appDataSource.manager.findOneOrFail(Group, {
@@ -129,5 +137,24 @@ export default {
 		group.description = request.description ?? ''
 		await group.save()
 		return 'Group information changed'
+	},
+	isGroupCreator: async (
+		groupId: number,
+		userId: number
+	): Promise<Boolean> => {
+		const creator = await appDataSource.getRepository(Group).findOne({
+			where: {
+				id: groupId,
+				user: { id: userId },
+			},
+			relations: {
+				user: true,
+			},
+		})
+		if (creator != null) {
+			return true
+		} else {
+			return false
+		}
 	},
 }

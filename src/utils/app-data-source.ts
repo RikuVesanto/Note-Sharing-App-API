@@ -4,7 +4,6 @@ import { User } from '../entities/User'
 import { Group } from '../entities/Group'
 import { Topic } from '../entities/Topic'
 import { Note } from '../entities/Note'
-import { NoteEdit } from '../entities/NoteEdit'
 
 dotenv.config({ path: 'src/development.env' })
 
@@ -15,7 +14,7 @@ export const appDataSource = new DataSource({
 	username: process.env.USER,
 	password: process.env.PASSWORD,
 	database: process.env.DB,
-	entities: [User, Group, Topic, Note, NoteEdit],
+	entities: [User, Group, Topic, Note],
 	synchronize: true,
 	logging: false,
 })
