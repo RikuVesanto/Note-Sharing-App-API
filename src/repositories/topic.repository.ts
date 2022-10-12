@@ -2,6 +2,7 @@ import { appDataSource } from '../utils/app-data-source'
 import { Topic } from '../entities/Topic'
 import { Group } from '../entities/Group'
 import { TopicRegisterRequestDTO } from '../dto/topic-register-request.dto'
+import { TopicEditRequestDTO } from '../dto/topic-edit-request.dto'
 import validate from '../utils/validate-dto'
 
 export default {
@@ -29,5 +30,22 @@ export default {
 			.where(`topic.groupId = ${id}`)
 			.getMany()
 		return response
+	},
+	editTopic: async (request: TopicEditRequestDTO): Promise<String> => {
+		await validate.validateRequest(request)
+		let topic: Topic
+		try {
+			topic = await appDataSource.manager.findOneOrFail(Topic, {
+				where: {
+					id: request.id,
+				},
+			})
+		} catch (err) {
+			return 'Topic not found'
+		}
+		topic.topic = request.topic
+		topic.description = request.description ?? ''
+		await topic.save()
+		return 'Topic Edited'
 	},
 }
