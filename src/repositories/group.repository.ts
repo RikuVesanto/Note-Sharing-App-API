@@ -120,7 +120,7 @@ export default {
 				name: request.name,
 			},
 		})
-		if (nameDuplicate != null) {
+		if (nameDuplicate != null && nameDuplicate.id != request.groupId) {
 			return 'This group name is already in use'
 		}
 		let group: Group
