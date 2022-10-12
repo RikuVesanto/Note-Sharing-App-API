@@ -16,7 +16,4 @@ export class EditUserInfoRequestDTO extends BaseDTO {
 
 	@Allow()
 	name!: string
-
-	@Allow()
-	school!: string
 }

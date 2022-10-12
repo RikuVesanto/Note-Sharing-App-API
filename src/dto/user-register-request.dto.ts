@@ -19,10 +19,4 @@ export class UserRegisterRequestDTO extends BaseDTO {
 
 	@Allow()
 	name!: string
-
-	@Allow()
-	school!: string
-
-	@Allow()
-	birthday!: Date
 }

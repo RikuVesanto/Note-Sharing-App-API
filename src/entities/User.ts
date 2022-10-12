@@ -28,14 +28,6 @@ export class User extends BaseEntity {
 	name: string
 
 	@Column({
-		nullable: true,
-	})
-	school: string
-
-	@Column()
-	birthday: Date
-
-	@Column({
 		unique: true,
 	})
 	email: string

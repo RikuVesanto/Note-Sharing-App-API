@@ -35,8 +35,6 @@ export default {
 		user.password = await argon2.hash(request.password)
 		user.email = request.email
 		user.name = request.name ?? ''
-		user.school = request.school ?? ''
-		user.birthday = request.birthday ?? '0001-01-01'
 		await user.save()
 		return 'success'
 	},
@@ -127,7 +125,6 @@ export default {
 			user.username = request.username
 		}
 		if (request.username) user.name = request.name
-		if (request.username) user.school = request.school
 		await user.save()
 		return 'success'
 	},
