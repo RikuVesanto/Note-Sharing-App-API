@@ -38,7 +38,7 @@ export default {
 		return 'success'
 	},
 	getGroupList: async (id: number): Promise<Group[]> => {
-		const groupList = await appDataSource
+		const groupList: Group[] = await appDataSource
 			.getRepository(Group)
 			.createQueryBuilder('group')
 			.leftJoin('group.users', 'user')
@@ -46,8 +46,8 @@ export default {
 			.getMany()
 		return groupList
 	},
-	getGroupSearchResult: async (search: string): Promise<Object> => {
-		var response = await appDataSource
+	getGroupSearchResult: async (search: string): Promise<Group[]> => {
+		var response: Group[] = await appDataSource
 			.getRepository(Group)
 			.createQueryBuilder('group')
 			.where(`group.name LIKE '%${search}%'`)
@@ -58,7 +58,7 @@ export default {
 		request: AddGroupsUserRequestDTO
 	): Promise<String> => {
 		await validate.validateRequest(request)
-		const usersGroups = await appDataSource
+		const usersGroups: Group[] = await appDataSource
 			.getRepository(Group)
 			.createQueryBuilder('group')
 			.leftJoin('group.users', 'user')
@@ -86,7 +86,7 @@ export default {
 		groupId: number,
 		userId: number
 	): Promise<String> => {
-		const usersGroups = await appDataSource
+		const usersGroups: Group[] = await appDataSource
 			.getRepository(Group)
 			.createQueryBuilder('group')
 			.leftJoin('group.users', 'user')
@@ -106,9 +106,7 @@ export default {
 		if (usersGroups.filter((g) => g.name == group.name).length != 1) {
 			return 'Not in Group'
 		}
-		console.log(group.users)
 		group.users = group.users.filter((u) => u.id != userId)
-		console.log(group.users)
 		await group.save()
 		return 'Left Group'
 	},
@@ -157,11 +155,12 @@ export default {
 		}
 	},
 	getUserList: async (id: number): Promise<User[]> => {
-		const group = await appDataSource.getRepository(Group).findOneOrFail({
-			relations: ['users'],
-			where: { id: id },
-		})
-		console.log(group.users)
+		const group: Group = await appDataSource
+			.getRepository(Group)
+			.findOneOrFail({
+				relations: ['users'],
+				where: { id: id },
+			})
 		return group.users
 	},
 }

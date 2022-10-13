@@ -9,7 +9,7 @@ export default {
 		const registerRequestDTO: GroupRegisterRequestDTO =
 			new GroupRegisterRequestDTO()
 		try {
-			let status = await groupRepo.register(
+			let status: String = await groupRepo.register(
 				Object.assign(registerRequestDTO, req.body)
 			)
 			if (status == 'duplicateName') {
@@ -47,7 +47,7 @@ export default {
 		const addGroupsUserRequestDTO: AddGroupsUserRequestDTO =
 			new AddGroupsUserRequestDTO()
 		try {
-			const result = await groupRepo.addUserConnection(
+			const result: String = await groupRepo.addUserConnection(
 				Object.assign(addGroupsUserRequestDTO, req.body)
 			)
 			if (result == 'alreadyInGroup') {
@@ -61,7 +61,7 @@ export default {
 	},
 	deleteUserConnection: async (req: Request, res: Response) => {
 		try {
-			const result = await groupRepo.deleteUserConnection(
+			const result: String = await groupRepo.deleteUserConnection(
 				parseInt(req.params.groupId),
 				parseInt(req.params.userId)
 			)
@@ -80,7 +80,7 @@ export default {
 		const registerRequestDTO: GroupEditInfoRequest =
 			new GroupEditInfoRequest()
 		try {
-			let status = await groupRepo.editGroup(
+			let status: String = await groupRepo.editGroup(
 				Object.assign(registerRequestDTO, req.body)
 			)
 			if (status == 'Group not found') {
@@ -96,7 +96,7 @@ export default {
 	},
 	getCreator: async (req: Request, res: Response) => {
 		try {
-			const creatorStatus = await groupRepo.isGroupCreator(
+			const creatorStatus: Boolean = await groupRepo.isGroupCreator(
 				parseInt(req.params.groupId),
 				parseInt(req.params.userId)
 			)

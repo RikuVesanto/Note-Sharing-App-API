@@ -8,7 +8,7 @@ export default {
 		const registerRequestDTO: NoteRegisterRequestDTO =
 			new NoteRegisterRequestDTO()
 		try {
-			const status = await noteRepo.register(
+			const status: String = await noteRepo.register(
 				Object.assign(registerRequestDTO, req.body)
 			)
 			if (status == 'topicMissing') {
@@ -30,7 +30,7 @@ export default {
 	},
 	deleteNote: async (req: Request, res: Response) => {
 		try {
-			const status = await noteRepo.deleteNote(req.params.id)
+			const status: String = await noteRepo.deleteNote(req.params.id)
 			res.status(200).send(status)
 		} catch (error: any) {
 			console.log(error)
@@ -39,7 +39,7 @@ export default {
 	editNote: async (req: Request, res: Response) => {
 		const editNoteDTO: NoteEditRequestDTO = new NoteEditRequestDTO()
 		try {
-			let status = await noteRepo.editNote(
+			let status: String = await noteRepo.editNote(
 				Object.assign(editNoteDTO, req.body)
 			)
 			if (status == 'Note not found') {

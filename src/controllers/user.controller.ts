@@ -10,7 +10,7 @@ export default {
 		const registerRequestDTO: UserRegisterRequestDTO =
 			new UserRegisterRequestDTO()
 		try {
-			let status = await userRepo.register(
+			let status: String = await userRepo.register(
 				Object.assign(registerRequestDTO, req.body)
 			)
 			if (status == 'duplicateEmail') {
@@ -27,7 +27,7 @@ export default {
 	login: async (req: Request, res: Response) => {
 		const LoginRequestDTO: UserLoginRequestDTO = new UserLoginRequestDTO()
 		try {
-			const response = await userRepo.login(
+			const response: String = await userRepo.login(
 				Object.assign(LoginRequestDTO, req.params)
 			)
 			if (
@@ -62,7 +62,7 @@ export default {
 		const editUserInfoDTO: EditUserInfoRequestDTO =
 			new EditUserInfoRequestDTO()
 		try {
-			let status = await userRepo.editUserInfo(
+			let status: String = await userRepo.editUserInfo(
 				Object.assign(editUserInfoDTO, req.body)
 			)
 			if (status == 'missingId') {
@@ -82,7 +82,7 @@ export default {
 		const editUserPasswordDTO: EditUserPasswordRequestDTO =
 			new EditUserPasswordRequestDTO()
 		try {
-			let status = await userRepo.editUserPassword(
+			let status: String = await userRepo.editUserPassword(
 				Object.assign(editUserPasswordDTO, req.body)
 			)
 			if (status == 'User not found') {

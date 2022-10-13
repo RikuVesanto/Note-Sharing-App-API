@@ -8,7 +8,7 @@ export default {
 		const registerRequestDTO: TopicRegisterRequestDTO =
 			new TopicRegisterRequestDTO()
 		try {
-			const status = await topicRepo.register(
+			const status: String = await topicRepo.register(
 				Object.assign(registerRequestDTO, req.body)
 			)
 			if (status == 'groupMissing') {
@@ -31,7 +31,7 @@ export default {
 	editTopic: async (req: Request, res: Response) => {
 		const editRequestDTO: TopicEditRequestDTO = new TopicEditRequestDTO()
 		try {
-			const status = await topicRepo.editTopic(
+			const status: String = await topicRepo.editTopic(
 				Object.assign(editRequestDTO, req.body)
 			)
 			if (status == 'Topic not found') {

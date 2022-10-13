@@ -23,15 +23,15 @@ export default {
 		await note.save()
 		return 'created'
 	},
-	getNoteList: async (id: string): Promise<Object> => {
-		var response = await appDataSource
+	getNoteList: async (id: string): Promise<Note[]> => {
+		var response: Note[] = await appDataSource
 			.getRepository(Note)
 			.createQueryBuilder('note')
 			.where(`note.topicId = ${id}`)
 			.getMany()
 		return response
 	},
-	deleteNote: async (id: string): Promise<Object> => {
+	deleteNote: async (id: string): Promise<String> => {
 		await appDataSource
 			.createQueryBuilder()
 			.delete()
@@ -42,7 +42,6 @@ export default {
 	},
 	editNote: async (request: NoteEditRequestDTO): Promise<String> => {
 		await validate.validateRequest(request)
-		console.log(request.noteId)
 		let note: Note
 		try {
 			note = await appDataSource.manager.findOneOrFail(Note, {

@@ -23,8 +23,8 @@ export default {
 		await topic.save()
 		return 'success'
 	},
-	getTopicList: async (id: string): Promise<Object> => {
-		var response = await appDataSource
+	getTopicList: async (id: string): Promise<Topic[]> => {
+		var response: Topic[] = await appDataSource
 			.getRepository(Topic)
 			.createQueryBuilder('topic')
 			.where(`topic.groupId = ${id}`)
