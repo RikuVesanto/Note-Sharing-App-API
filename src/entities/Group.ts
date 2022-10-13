@@ -26,11 +26,6 @@ export class Group extends BaseEntity {
 	@Column({
 		nullable: true,
 	})
-	class: string
-
-	@Column({
-		nullable: true,
-	})
 	description: string
 
 	@Column({

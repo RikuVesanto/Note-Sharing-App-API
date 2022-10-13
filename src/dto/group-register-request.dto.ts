@@ -11,10 +11,6 @@ export class GroupRegisterRequestDTO extends BaseDTO {
 	@Allow()
 	password!: string
 
-	@Length(0, 48)
-	@Allow()
-	class!: string
-
 	@Length(0, 100)
 	@Allow()
 	description!: string

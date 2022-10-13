@@ -32,7 +32,6 @@ export default {
 			},
 		})
 		group.user = user
-		group.class = request.class ?? ''
 		group.description = request.description ?? ''
 		group.users = [user]
 		await group.save()
