@@ -12,7 +12,7 @@ export default {
 				Object.assign(registerRequestDTO, req.body)
 			)
 			if (status == 'groupMissing') {
-				res.status(422).send('Failed to create topic, missing group')
+				res.status(409).send('Failed to create topic, missing group')
 			} else if (status == 'success') {
 				res.status(201).send('Topic created')
 			}
@@ -35,7 +35,7 @@ export default {
 				Object.assign(editRequestDTO, req.body)
 			)
 			if (status == 'Topic not found') {
-				res.status(422).send(status)
+				res.status(409).send(status)
 			} else if (status == 'Topic Edited') {
 				res.status(201).send(status)
 			}

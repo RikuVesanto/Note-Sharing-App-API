@@ -12,7 +12,7 @@ export default {
 				Object.assign(registerRequestDTO, req.body)
 			)
 			if (status == 'topicMissing') {
-				res.status(422).send('Failed to create note, missing topic')
+				res.status(409).send('Failed to create note, missing topic')
 			} else if (status == 'created') {
 				res.status(201).send('Note created')
 			}
