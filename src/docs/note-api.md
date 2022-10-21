@@ -24,9 +24,7 @@ content | string | Yes | | content of the note
     Error responses:
       409 Failed to create note, missing topic
 
-#### Example
-
-Request
+#### Example Request
 
     POST https://localhost:3000/notes/note
 
@@ -60,9 +58,7 @@ content | string | Yes | | content of the note
     Error responses:
       409 Note not found
 
-#### Example
-
-Request
+#### Example Request
 
     PUT https://localhost:3000/notes/note
 
@@ -92,9 +88,7 @@ Delete a note
       200
     Error responses:
 
-#### Example
-
-Request
+#### Example Request
 
     DELETE https://localhost:3000/notes/note
 
@@ -115,8 +109,6 @@ Get all of topics notes
     Success response:
       200
 
-#### Example
-
-Request
+#### Example Request
 
     PUT https://localhost:3000/topics/topic/:id

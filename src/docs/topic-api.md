@@ -24,9 +24,7 @@ description | string | No | Length 1-100 chars | Describe the topic
     Error responses:
       409 Failed to create topic, missing group
 
-#### Example
-
-Request
+#### Example Request
 
     POST https://localhost:3000/topics/topic
 
@@ -60,9 +58,7 @@ description | string | No | Length 1-100 chars | describe the topic
     Error responses:
       409 Topic not found
 
-#### Example
-
-Request
+#### Example Request
 
     PUT https://localhost:3000/topics/topic
 
@@ -92,8 +88,6 @@ Get list of topics from a group
       200
     Error responses:
 
-#### Example
-
-Request
+#### Example Request
 
     GET https://localhost:3000/topics/topiclist/:id

@@ -26,9 +26,7 @@ password | string | No | Length 8-256 chars | Groups password
       409 This group name is already in use
       422 Failed to create group, missing creator
 
-#### Example
-
-Request
+#### Example Request
 
     POST https://localhost:3000/groups/group
 
@@ -62,9 +60,7 @@ groupId | string | Yes | | Id of the group
     Error responses:
       409 Could not join already in a group
 
-#### Example
-
-Request
+#### Example Request
 
     POST https://localhost:3000/users/userconnection
 
@@ -98,9 +94,7 @@ description | string | No | Length 1-100 chars | Describe the group
       409 Group not found
       409 This group name is already in use
 
-#### Example
-
-Request
+#### Example Request
 
     PUT https://localhost:3000/groups/group
 
@@ -134,9 +128,7 @@ Remove user from a group
       409 Not in group
       409 Group not found
 
-#### Example
-
-Request
+#### Example Request
 
     DELETE https://localhost:3000/groups/userconnection/:groupId/:userId
 
@@ -157,9 +149,7 @@ Get list of users in a group
     Success response:
       200
 
-#### Example
-
-Request
+#### Example Request
 
     GET https://localhost:3000/groups/userlist/:id
 
@@ -180,9 +170,7 @@ Get list of groups which a user is in
     Success response:
       200
 
-#### Example
-
-Request
+#### Example Request
 
     GET https://localhost:3000/groups/grouplist/:id
 
@@ -203,9 +191,7 @@ Get list of groups that have a certain string as part of their name
     Success response:
       200
 
-#### Example
-
-Request
+#### Example Request
 
     GET https://localhost:3000/groups/searchlist/:search
 
@@ -227,9 +213,7 @@ Checks if user is the creator of the group, return true if he is and false other
     Success response:
       200
 
-#### Example
-
-Request
+#### Example Request
 
     GET https://localhost:3000/groups/group/creator/:groupId/:userId
 
@@ -253,8 +237,6 @@ Change who has admin rights within the group
     Error responses:
       409 Group not found
 
-#### Example
-
-Request
+#### Example Request
 
     PUT https://localhost:3000/groups/creator

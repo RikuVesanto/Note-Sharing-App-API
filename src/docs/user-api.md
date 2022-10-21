@@ -26,9 +26,7 @@ name | string | No | | Users name
       409 This email is already in use
       409 This username is already in use
 
-#### Example
-
-Request
+#### Example Request
 
     POST https://localhost:3000/users/user
 
@@ -62,9 +60,7 @@ password | string | Yes | Length 8-256 chars | Users password
       401 Incorrect password
       401 Username not found
 
-#### Example
-
-Request
+#### Example Request
 
     GET https://localhost:3000/users/user/:username/:password
 
@@ -100,9 +96,7 @@ name | string | No | | Users name
       409 This email is already in use
       409 This username is already in use
 
-#### Example
-
-Request
+#### Example Request
 
     PUT https://localhost:3000/users/user/password
 
@@ -138,9 +132,7 @@ password | string | Yes | Length 8-256 chars | Users new password
       401 User not found
       422 Incorrect Password
 
-#### Example
-
-Request
+#### Example Request
 
     PUT https://localhost:3000/users/user/password
 
@@ -171,8 +163,6 @@ Get user based on an id
     Error responses:
       401 Username not found
 
-#### Example
-
-Request
+#### Example Request
 
     GET https://localhost:3000/users/user/:id
