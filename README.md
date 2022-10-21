@@ -20,6 +20,7 @@
 -   Get list of groups which a user is a part of
 -   Get list of groups which name meets a search criteria
 -   Check if a user is the creator of the group
+-   Change creator of the group
 
 [Topic](src/docs/topic-api.md) (/topics/)
 

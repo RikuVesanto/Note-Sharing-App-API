@@ -3,6 +3,7 @@ import { GroupRegisterRequestDTO } from '../dto/group-register-request.dto'
 import { GroupEditInfoRequest } from '../dto/group-edit-info-request.dto'
 import groupRepo from '../repositories/group.repository'
 import { AddGroupsUserRequestDTO } from '../dto/add-groups-user-request.dto'
+import { GroupAdminEditRequestDTO } from '../dto/group-admin-edit-request.dto'
 
 export default {
 	register: async (req: Request, res: Response) => {
@@ -111,6 +112,22 @@ export default {
 				parseInt(req.params.id)
 			)
 			res.status(200).send(userList)
+		} catch (error: any) {
+			console.log(error)
+		}
+	},
+	editCreator: async (req: Request, res: Response) => {
+		const groupAdminEditRequestDTO: GroupAdminEditRequestDTO =
+			new GroupAdminEditRequestDTO()
+		try {
+			let status: String = await groupRepo.editCreator(
+				Object.assign(groupAdminEditRequestDTO, req.body)
+			)
+			if (status == 'Group not found') {
+				res.status(409).send(status)
+			} else if (status == 'Admin changed') {
+				res.status(200).send(status)
+			}
 		} catch (error: any) {
 			console.log(error)
 		}

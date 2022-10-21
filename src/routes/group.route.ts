@@ -24,5 +24,6 @@ router.delete(
 	authenticate,
 	groupController.deleteUserConnection
 )
+router.put('/creator', authenticate, groupController.editCreator)
 
 export default router

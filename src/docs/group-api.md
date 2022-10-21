@@ -232,3 +232,29 @@ Checks if user is the creator of the group, return true if he is and false other
 Request
 
     GET https://localhost:3000/groups/group/creator/:groupId/:userId
+
+### Change creator of the group
+
+Change who has admin rights within the group
+
+    PUT groups/creator
+
+#### Parameters
+
+| Field   | Data Type | Required | Other restrictions | Description     |
+| ------- | --------- | -------- | ------------------ | --------------- |
+| groupId | string    | Yes      |                    | Id of the group |
+| userId  | string    | Yes      |                    | Id of the user  |
+
+#### Responses
+
+    Success response:
+      200 Admin changed
+    Error responses:
+      409 Group not found
+
+#### Example
+
+Request
+
+    PUT https://localhost:3000/groups/creator

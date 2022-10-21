@@ -3,6 +3,7 @@ import { Group } from '../entities/Group'
 import { GroupRegisterRequestDTO } from '../dto/group-register-request.dto'
 import { GroupEditInfoRequest } from '../dto/group-edit-info-request.dto'
 import { AddGroupsUserRequestDTO } from '../dto/add-groups-user-request.dto'
+import { GroupAdminEditRequestDTO } from '../dto/group-admin-edit-request.dto'
 import validate from '../utils/validate-dto'
 import { User } from '../entities/User'
 import { appDataSource } from '../utils/app-data-source'
@@ -162,5 +163,29 @@ export default {
 				where: { id: id },
 			})
 		return group.users
+	},
+
+	editCreator: async (request: GroupAdminEditRequestDTO): Promise<String> => {
+		let group: Group
+		try {
+			group = await appDataSource.manager.findOneOrFail(Group, {
+				where: {
+					id: request.groupId,
+				},
+				relations: {
+					user: true,
+				},
+			})
+		} catch (err) {
+			return 'Group not found'
+		}
+		const user: User = await appDataSource.manager.findOneOrFail(User, {
+			where: {
+				id: request.userId,
+			},
+		})
+		group.user = user
+		group.save()
+		return 'Admin changed'
 	},
 }
